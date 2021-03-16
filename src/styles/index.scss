@@ -1,0 +1,49 @@
+$body-color: white;
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: $body-color;
+  background-color: #fff;
+  font-family: sans-serif;
+}
+
+.grid {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  width: 840px;
+  height: 840px;
+
+  div {
+    margin: 0;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+.pac-dot {
+  background-color: green;
+  border: 5px solid white;
+}
+
+.wall {
+  background-color: blue;
+}
+
+.power-pellet {
+  background-color: green;
+  border-radius: 50%;
+}
+
+.pacman {
+  background-color: yellow;
+  border-radius: 50%;
+}
+
+.ghost-lair {
+  background-color: burlywood;
+}
