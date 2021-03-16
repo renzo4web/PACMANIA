@@ -27,7 +27,15 @@ const movePacman = (steps) => {
   const pacPosition = squares.indexOf(pacman);
   let nextEl = pacPosition;
   // TODO: check walls
-  nextEl = nextEl +(-steps);
-  squares[pacPosition].classList.remove('pacman');
-  squares[nextEl].classList.add('pacman');
+  nextEl = nextEl + -steps;
+  if (!squares[nextEl].classList.contains('wall')) {
+    console.log('dd');
+    squares[pacPosition].classList.remove('pacman');
+    squares[nextEl].classList.remove('pac-dot');
+    squares[nextEl].classList.add('pacman');
+  }else{
+    squares[pacPosition-nextEl].classList.add("pacmac");
+  }
+
+
 };
