@@ -142,3 +142,16 @@ body {
     transform: translate(0, 0);
   }
 }
+
+.scared {
+  background-color: rgb(255, 255, 255);
+  border-color: blueviolet;
+  animation: blinker 1s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+    background-color: rgb(68, 0, 255);
+  }
+}

@@ -1,5 +1,5 @@
-import { squares, width } from './grid';
-import { changeClass, isShortcut } from './components';
+import { squares, width, grid } from './grid';
+import { changeClassArr, isShortcut, pacman , showScore } from './components';
 
 class Ghost {
   className;
@@ -39,29 +39,67 @@ const moveGhost = (ghost) => {
       !squares[ghost.currentIndex + direction].classList.contains('wall') &&
       !squares[ghost.currentIndex + direction].classList.contains('ghost')
     ) {
-      squares[ghost.currentIndex].classList.remove(ghost.className);
-      squares[ghost.currentIndex].classList.remove('ghost');
-      // changeClass(squares[ghost.currentIndex], 'pac-dot',true);
+      changeClassArr(squares[ghost.currentIndex], [
+        ghost.className,
+        'ghost',
+        'scared',
+      ]);
+
       ghost.currentIndex += direction;
       ghost.currentIndex = isShortcut(ghost.currentIndex);
-      squares[ghost.currentIndex].classList.add(ghost.className);
-      squares[ghost.currentIndex].classList.add('ghost');
-      // changeClass(squares[ghost.currentIndex], 'pac-dot');
+
+      changeClassArr(
+        squares[ghost.currentIndex],
+        [ghost.className, 'ghost'],
+        true
+      );
+
+      if (ghost.isScared) {
+        squares[ghost.currentIndex].classList.add('scared');
+      }
     } else {
       direction = directions[Math.floor(Math.random() * directions.length)];
     }
-
+    pacmanEatPower();
     if (
-      squares[ghost.currentIndex].classList.contains('pacman')
+      squares[ghost.currentIndex].classList.contains('pacman') &&
+      ghost.isScared
     ) {
-      console.log('dsd');
-      squares[ghost.currentIndex].classList.remove(ghost.className);
-      squares[ghost.currentIndex].classList.remove('ghost');
+      changeClassArr(squares[ghost.currentIndex], [
+        ghost.className,
+        'ghost',
+        'scared',
+      ]);
+
       clearInterval(ghost.timerId);
     }
   }, ghost.speed);
 };
 
+const pacmanEatPower = () => {
+  let pacman = document.querySelector('div.pacman');
+  if (pacman.classList.contains('power-pellet')) {
+    squares[squares.indexOf(pacman)].classList.remove('power-pellet');
+    grid.classList.add('shake');
+    const bonus = 10;
+    showScore(bonus);
+    ghosts.forEach((ghost) => {
+      ghost.isScared = true;
+    });
+
+    setTimeout(() => {
+      ghosts.forEach((ghost) => {
+        ghost.isScared = false;
+      });
+      grid.classList.remove('shake');
+    }, 15000);
+  }
+};
+
+const ghostEatPacman = () => {
+  ghosts.forEach((ghost) => clearInterval(ghost.timerId));
+};
+
 ghosts.forEach(moveGhost);
 
-export { moveGhost, ghosts, displayGhosts };
+export { moveGhost, ghosts, displayGhosts, ghostEatPacman };

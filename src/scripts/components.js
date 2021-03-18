@@ -1,13 +1,14 @@
 import { width, squares, grid } from './grid';
-import { moveGhost, ghosts } from './ghosts';
+import { ghostEatPacman } from './ghosts';
 
 const score = document.getElementById('score');
-let pacman = document.querySelector('div .pacman');
-
+let pacman = document.querySelector('div.pacman');
+let hasLost = false;
 let steps = 0;
 let scoreCount = 0;
 
 const handleKey = (event) => {
+  if (hasLost) return;
   switch (event.key) {
     case 'ArrowUp':
       steps = -width;
@@ -29,8 +30,16 @@ const handleKey = (event) => {
 };
 
 const movePacman = () => {
-  pacman = document.querySelector('div .pacman');
+  pacman = document.querySelector('div.pacman');
   const currPosition = squares.indexOf(pacman);
+  if (
+    pacman.className.includes('ghost') &&
+    !pacman.className.includes('scared')
+  ) {
+    ghostEatPacman();
+    hasLost = true;
+    return;
+  }
   let nextPos = isShortcut(currPosition);
   nextPos = nextPos + -steps;
   if (
@@ -42,16 +51,12 @@ const movePacman = () => {
     changeClass(squares[nextPos], 'pac-dot');
     changeClass(squares[nextPos], 'pacman', true);
   }
-  pacmanEatPower();
 };
 
-const game = (state) => {
-  if (state) {
-    setInterval(movePacman, 300);
-  }
-};
+const pacmanInterval = setInterval(movePacman, 300);
 
-const showScore = (scoreCount) => {
+const sumScore = (points) => {
+  scoreCount += points;
   score.textContent = scoreCount;
 };
 
@@ -66,23 +71,46 @@ const isShortcut = (index) => {
   if (index === shortcutRightIndex) return shortcutLeftIndex;
   return index;
 };
+
 const pacmanEating = (nextPos) => {
   if (squares[nextPos].classList.contains('pac-dot')) {
-    scoreCount++;
-    showScore(scoreCount);
+    sumScore(1);
   }
 };
 
+const changeClassArr = (elem, arrayClass, toAdd) => {
+  arrayClass.forEach((cssClass, i) => {
+    toAdd ? elem.classList.add(cssClass) : elem.classList.remove(cssClass);
+  });
+};
+
 const pacmanEatPower = () => {
+  let pacman = document.querySelector('div.pacman');
   if (pacman.classList.contains('power-pellet')) {
-    squares[squares.indexOf(pacman)].classList.remove('power.pellet');
+    score += 10;
+    squares[squares.indexOf(pacman)].classList.remove('power-pellet');
     grid.classList.add('shake');
-    ghosts.forEach((ghost) => (ghost.isScared = true));
+
+    ghosts.forEach((ghost) => {
+      ghost.isScared = true;
+    });
+
     setTimeout(() => {
-      ghosts.forEach((ghost) => (ghost.isScared = false));
+      ghosts.forEach((ghost) => {
+        ghost.isScared = false;
+      });
       grid.classList.remove('shake');
     }, 15000);
   }
 };
 
-export { handleKey, isShortcut, game, changeClass };
+export {
+  handleKey,
+  isShortcut,
+  changeClass,
+  pacman,
+  changeClassArr,
+  scoreCount,
+  pacmanEatPower,
+  sumScore as showScore
+};
