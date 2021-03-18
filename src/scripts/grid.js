@@ -1,4 +1,4 @@
-const grid = document.querySelector('.grid');
+export const grid = document.querySelector('.grid');
 export const width = 28;
 
 const layout = [
@@ -809,6 +809,8 @@ const addClassCss = (num) => {
       return 'ghost-lair';
     case 3:
       return 'power-pellet';
+    case 4:
+      return 'pac-dot';
     case 7:
       return 'pacman';
     default:

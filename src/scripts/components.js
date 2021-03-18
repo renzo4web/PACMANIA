@@ -1,5 +1,6 @@
-import { width, squares } from './grid';
-import { moveGhost } from './ghosts';
+import { width, squares, grid } from './grid';
+import { moveGhost, ghosts } from './ghosts';
+
 const score = document.getElementById('score');
 let pacman = document.querySelector('div .pacman');
 
@@ -41,12 +42,12 @@ const movePacman = () => {
     changeClass(squares[nextPos], 'pac-dot');
     changeClass(squares[nextPos], 'pacman', true);
   }
+  pacmanEatPower();
 };
 
 const game = (state) => {
   if (state) {
     setInterval(movePacman, 300);
-    return;
   }
 };
 
@@ -59,10 +60,10 @@ const changeClass = (element, css, add) => {
 };
 
 const isShortcut = (index) => {
-  const shorcutLeftIndex = 364;
-  const shorcutRightIndex = 391;
-  if (index === shorcutLeftIndex) return shorcutRightIndex;
-  if (index === shorcutRightIndex) return shorcutLeftIndex;
+  const shortcutLeftIndex = 364;
+  const shortcutRightIndex = 391;
+  if (index === shortcutLeftIndex) return shortcutRightIndex;
+  if (index === shortcutRightIndex) return shortcutLeftIndex;
   return index;
 };
 const pacmanEating = (nextPos) => {
@@ -72,4 +73,16 @@ const pacmanEating = (nextPos) => {
   }
 };
 
-export { handleKey, isShortcut, game , changeClass};
+const pacmanEatPower = () => {
+  if (pacman.classList.contains('power-pellet')) {
+    squares[squares.indexOf(pacman)].classList.remove('power.pellet');
+    grid.classList.add('shake');
+    ghosts.forEach((ghost) => (ghost.isScared = true));
+    setTimeout(() => {
+      ghosts.forEach((ghost) => (ghost.isScared = false));
+      grid.classList.remove('shake');
+    }, 15000);
+  }
+};
+
+export { handleKey, isShortcut, game, changeClass };

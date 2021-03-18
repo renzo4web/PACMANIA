@@ -33,16 +33,35 @@ const displayGhosts = () => {
 const moveGhost = (ghost) => {
   const directions = [-1, +1, -width, +width];
   let direction = directions[Math.floor(Math.random() * directions.length)];
-  let currPosition = ghost.currentIndex;
-  let nextPos = isShortcut(currPosition);
-  nextPos = nextPos + -direction;
 
-  if (!squares[nextPos].classList.contains('wall')) {
-    changeClass(squares[currPosition], ghost.className);
-    changeClass(squares[currPosition], 'ghost');
-    changeClass(squares[nextPos], 'ghost', true);
-    changeClass(squares[nextPos], ghost.className, true);
-  }
+  ghost.timerId = setInterval(() => {
+    if (
+      !squares[ghost.currentIndex + direction].classList.contains('wall') &&
+      !squares[ghost.currentIndex + direction].classList.contains('ghost')
+    ) {
+      squares[ghost.currentIndex].classList.remove(ghost.className);
+      squares[ghost.currentIndex].classList.remove('ghost');
+      // changeClass(squares[ghost.currentIndex], 'pac-dot',true);
+      ghost.currentIndex += direction;
+      ghost.currentIndex = isShortcut(ghost.currentIndex);
+      squares[ghost.currentIndex].classList.add(ghost.className);
+      squares[ghost.currentIndex].classList.add('ghost');
+      // changeClass(squares[ghost.currentIndex], 'pac-dot');
+    } else {
+      direction = directions[Math.floor(Math.random() * directions.length)];
+    }
+
+    if (
+      squares[ghost.currentIndex].classList.contains('pacman')
+    ) {
+      console.log('dsd');
+      squares[ghost.currentIndex].classList.remove(ghost.className);
+      squares[ghost.currentIndex].classList.remove('ghost');
+      clearInterval(ghost.timerId);
+    }
+  }, ghost.speed);
 };
+
+ghosts.forEach(moveGhost);
 
 export { moveGhost, ghosts, displayGhosts };
