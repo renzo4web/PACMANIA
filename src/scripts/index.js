@@ -1,6 +1,6 @@
 import '../styles/index.scss';
-import { createGrid } from './grid';
-import { handleKey, gameStart } from './components';
+import { createGrid, grid } from './grid';
+import { handleKey, btnRestart, endGameScreen } from './components';
 
 if (process.env.NODE_ENV === 'development') {
   require('../index.html');
@@ -9,4 +9,3 @@ if (process.env.NODE_ENV === 'development') {
 createGrid();
 
 window.addEventListener('keydown', handleKey);
-

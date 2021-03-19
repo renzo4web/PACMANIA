@@ -40,6 +40,7 @@ const movePacman = () => {
   ) {
     ghostEatPacman();
     hasLost = true;
+    gameRestart();
     return;
   }
   let nextPos = isShortcut(currPosition);
@@ -106,13 +107,30 @@ const pacmanEatPower = () => {
   }
 };
 
-const gameLost = () => {
+const gameRestart = (win) => {
+  clearInterval(pacmanInterval);
+  grid.style.display = 'none';
   const div = document.createElement('div');
-  const restartBtn = document.createElement('button');
+  const btn = document.createElement('button');
+  const header = document.querySelector('header');
+  btn.textContent = 'Restart';
+  btn.classList.add('restart');
   div.classList.add('lost');
-  div.innerHTML = 'GAME LOST';
-  div.insertAdjacentElement('beforeend', restartBtn);
-  grid.appendChild(div);
+  div.innerHTML = win ? 'WIN👏' : 'GAME LOST😢';
+  div.insertAdjacentElement('beforeend', btn);
+  header.insertAdjacentElement('afterend', div);
+  const btnRestart = document.querySelector('button.restart');
+  startGame(btnRestart);
+};
+
+const startGame = (btnRestart) => {
+  btnRestart.addEventListener('click', () => {
+    const endGameScreen = document.querySelector('.lost');
+    grid.style.display = 'flex';
+    endGameScreen.style.display = 'none';
+    console.log('RESTART CLICKED');
+    return;
+  });
 };
 
 export {
@@ -126,5 +144,6 @@ export {
   sumScore,
   bonusGhostEaten,
   bonusPowerPellet,
-  gameLost
+  gameRestart as gameLost,
+  
 };
