@@ -6,6 +6,8 @@ let pacman = document.querySelector('div.pacman');
 let hasLost = false;
 let steps = 0;
 let scoreCount = 0;
+const bonusPowerPellet = 10;
+const bonusGhostEaten = 20;
 
 const handleKey = (event) => {
   if (hasLost) return;
@@ -104,6 +106,15 @@ const pacmanEatPower = () => {
   }
 };
 
+const gameLost = () => {
+  const div = document.createElement('div');
+  const restartBtn = document.createElement('button');
+  div.classList.add('lost');
+  div.innerHTML = 'GAME LOST';
+  div.insertAdjacentElement('beforeend', restartBtn);
+  grid.appendChild(div);
+};
+
 export {
   handleKey,
   isShortcut,
@@ -112,5 +123,8 @@ export {
   changeClassArr,
   scoreCount,
   pacmanEatPower,
-  sumScore as showScore
+  sumScore,
+  bonusGhostEaten,
+  bonusPowerPellet,
+  gameLost
 };

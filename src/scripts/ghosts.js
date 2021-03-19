@@ -1,5 +1,14 @@
 import { squares, width, grid } from './grid';
-import { changeClassArr, isShortcut, pacman , showScore } from './components';
+import {
+  bonusGhostEaten,
+  bonusPowerPellet,
+  changeClassArr,
+  gameLost,
+  isShortcut,
+  sumScore,
+} from './components';
+
+let pacman = document.querySelector('div.pacman');
 
 class Ghost {
   className;
@@ -62,27 +71,27 @@ const moveGhost = (ghost) => {
     }
     pacmanEatPower();
     if (
-      squares[ghost.currentIndex].classList.contains('pacman') &&
+      squares[ghost.currentIndex].className.includes('pacman') &&
       ghost.isScared
     ) {
+      sumScore(bonusGhostEaten);
       changeClassArr(squares[ghost.currentIndex], [
         ghost.className,
         'ghost',
         'scared',
       ]);
-
+      if (document.querySelectorAll('.ghost').length <= 0) gameLost();
       clearInterval(ghost.timerId);
     }
   }, ghost.speed);
 };
 
 const pacmanEatPower = () => {
-  let pacman = document.querySelector('div.pacman');
+  pacman = document.querySelector('div.pacman');
   if (pacman.classList.contains('power-pellet')) {
     squares[squares.indexOf(pacman)].classList.remove('power-pellet');
     grid.classList.add('shake');
-    const bonus = 10;
-    showScore(bonus);
+    sumScore(bonusPowerPellet);
     ghosts.forEach((ghost) => {
       ghost.isScared = true;
     });
