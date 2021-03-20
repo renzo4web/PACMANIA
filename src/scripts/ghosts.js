@@ -1,4 +1,4 @@
-import { squares, width, grid } from './grid';
+import {grid, squares, width} from './grid';
 import {
   bonusGhostEaten,
   bonusPowerPellet,
@@ -41,8 +41,8 @@ const moveGhost = (ghost) => {
   console.log(ghosts);
   ghost.timerId = setInterval(() => {
     if (
-      !squares[ghost.currentIndex + direction].classList.contains('wall') &&
-      !squares[ghost.currentIndex + direction].classList.contains('ghost')
+        !squares[ghost.currentIndex + direction].classList.contains('wall') &&
+        !squares[ghost.currentIndex + direction].classList.contains('ghost')
     ) {
       changeClassArr(squares[ghost.currentIndex], [
         ghost.className,
@@ -54,9 +54,9 @@ const moveGhost = (ghost) => {
       ghost.currentIndex = isShortcut(ghost.currentIndex);
 
       changeClassArr(
-        squares[ghost.currentIndex],
-        [ghost.className, 'ghost'],
-        true
+          squares[ghost.currentIndex],
+          [ghost.className, 'ghost'],
+          true,
       );
 
       if (ghost.isScared) {
@@ -67,8 +67,8 @@ const moveGhost = (ghost) => {
     }
     pacmanEatPower();
     if (
-      squares[ghost.currentIndex].className.includes('pacman') &&
-      ghost.isScared
+        squares[ghost.currentIndex].className.includes('pacman') &&
+        ghost.isScared
     ) {
       sumScore(bonusGhostEaten);
       changeClassArr(squares[ghost.currentIndex], [
@@ -78,7 +78,7 @@ const moveGhost = (ghost) => {
       ]);
       clearInterval(ghost.timerId);
     }
-    if (document.querySelectorAll('.ghost').length <= 0) gameLost("win");
+    if (document.querySelectorAll('.ghost').length <= 0) gameLost('win');
   }, ghost.speed);
 };
 
@@ -115,4 +115,4 @@ const startGhost = () => {
   ghosts.forEach(moveGhost);
 };
 
-export { moveGhost, ghosts, displayGhosts, ghostEatPacman, startGhost };
+export {moveGhost, ghosts, displayGhosts, ghostEatPacman, startGhost};

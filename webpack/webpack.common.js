@@ -41,6 +41,8 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
+            emitFile:true,
+            esModule:false,
             name: '[path][name].[ext]',
           },
         },

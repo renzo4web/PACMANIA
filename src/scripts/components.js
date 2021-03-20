@@ -1,13 +1,7 @@
-import { width, squares, grid, createGrid } from './grid';
-import {
-  ghostEatPacman,
-  ghosts,
-  moveGhost,
-  startGhost,
-  displayGhosts,
-} from './ghosts';
+import {createGrid, grid, squares, width} from './grid';
+import {ghostEatPacman, ghosts, startGhost} from './ghosts';
 
-const score = document.getElementById('score');
+let score = document.getElementById('score');
 let pacman = document.querySelector('div.pacman');
 let hasLost = false;
 let steps = 0;
@@ -38,14 +32,14 @@ const handleKey = (event) => {
 };
 
 const movePacman = () => {
-  if(document.querySelectorAll(".pac-dot").length <= 0){
-    gameRestart("win");
+  if (document.querySelectorAll('.pac-dot').length <= 0) {
+    gameRestart('win');
   }
   pacman = document.querySelector('div.pacman');
   const currPosition = squares.indexOf(pacman);
   if (
-    pacman.className.includes('ghost') &&
-    !pacman.className.includes('scared')
+      pacman.className.includes('ghost') &&
+      !pacman.className.includes('scared')
   ) {
     ghostEatPacman();
     gameRestart();
@@ -54,8 +48,8 @@ const movePacman = () => {
   let nextPos = isShortcut(currPosition);
   nextPos = nextPos + -steps;
   if (
-    !squares[nextPos].classList.contains('wall') &&
-    !squares[nextPos].classList.contains('ghost-lair')
+      !squares[nextPos].classList.contains('wall') &&
+      !squares[nextPos].classList.contains('ghost-lair')
   ) {
     changeClass(squares[currPosition], 'pacman');
     pacmanEating(nextPos);
@@ -150,7 +144,6 @@ const startGame = (btnRestart) => {
     startGhost();
     window.addEventListener('keydown', handleKey);
     timerId = setInterval(movePacman, 300);
-    console.log('dsidjosa');
   });
 };
 
