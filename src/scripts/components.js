@@ -1,5 +1,11 @@
-import { width, squares, grid } from './grid';
-import { ghostEatPacman } from './ghosts';
+import { width, squares, grid, createGrid } from './grid';
+import {
+  ghostEatPacman,
+  ghosts,
+  moveGhost,
+  startGhost,
+  displayGhosts,
+} from './ghosts';
 
 const score = document.getElementById('score');
 let pacman = document.querySelector('div.pacman');
@@ -32,6 +38,9 @@ const handleKey = (event) => {
 };
 
 const movePacman = () => {
+  if(document.querySelectorAll(".pac-dot").length <= 0){
+    gameRestart("win");
+  }
   pacman = document.querySelector('div.pacman');
   const currPosition = squares.indexOf(pacman);
   if (
@@ -39,7 +48,6 @@ const movePacman = () => {
     !pacman.className.includes('scared')
   ) {
     ghostEatPacman();
-    hasLost = true;
     gameRestart();
     return;
   }
@@ -56,7 +64,15 @@ const movePacman = () => {
   }
 };
 
-const pacmanInterval = setInterval(movePacman, 300);
+let timerId = setInterval(movePacman, 300);
+
+const pacmanInterval = (stop) => {
+  if (stop) {
+    clearInterval(timerId);
+  } else {
+    setInterval(movePacman, 300);
+  }
+};
 
 const sumScore = (points) => {
   scoreCount += points;
@@ -108,8 +124,9 @@ const pacmanEatPower = () => {
 };
 
 const gameRestart = (win) => {
-  clearInterval(pacmanInterval);
-  grid.style.display = 'none';
+  pacmanInterval(true);
+  scoreCount = 0;
+  grid.innerHTML = '';
   const div = document.createElement('div');
   const btn = document.createElement('button');
   const header = document.querySelector('header');
@@ -123,13 +140,17 @@ const gameRestart = (win) => {
   startGame(btnRestart);
 };
 
+const startInputEvent = window.addEventListener('keydown', handleKey);
+
 const startGame = (btnRestart) => {
   btnRestart.addEventListener('click', () => {
     const endGameScreen = document.querySelector('.lost');
-    grid.style.display = 'flex';
     endGameScreen.style.display = 'none';
-    console.log('RESTART CLICKED');
-    return;
+    createGrid();
+    startGhost();
+    window.addEventListener('keydown', handleKey);
+    timerId = setInterval(movePacman, 300);
+    console.log('dsidjosa');
   });
 };
 
@@ -145,5 +166,6 @@ export {
   bonusGhostEaten,
   bonusPowerPellet,
   gameRestart as gameLost,
-  
+  pacmanInterval,
+  startInputEvent,
 };

@@ -25,24 +25,20 @@ class Ghost {
   }
 }
 
-const ghosts = [
-  new Ghost('blinky', 348, 250),
-  new Ghost('pinky', 376, 400),
-  new Ghost('inky', 351, 300),
-  new Ghost('clyde', 379, 500),
-];
+let ghosts = [];
 
 const displayGhosts = () => {
-  for (const ghost of ghosts) {
+  ghosts.forEach((ghost) => {
     squares[ghost.startIndex].classList.add('ghost');
     squares[ghost.startIndex].classList.add(ghost.className);
-  }
+    console.log(squares.length);
+  });
 };
 
 const moveGhost = (ghost) => {
   const directions = [-1, +1, -width, +width];
   let direction = directions[Math.floor(Math.random() * directions.length)];
-
+  console.log(ghosts);
   ghost.timerId = setInterval(() => {
     if (
       !squares[ghost.currentIndex + direction].classList.contains('wall') &&
@@ -80,9 +76,9 @@ const moveGhost = (ghost) => {
         'ghost',
         'scared',
       ]);
-      if (document.querySelectorAll('.ghost').length <= 0) gameLost();
       clearInterval(ghost.timerId);
     }
+    if (document.querySelectorAll('.ghost').length <= 0) gameLost("win");
   }, ghost.speed);
 };
 
@@ -95,7 +91,6 @@ const pacmanEatPower = () => {
     ghosts.forEach((ghost) => {
       ghost.isScared = true;
     });
-
     setTimeout(() => {
       ghosts.forEach((ghost) => {
         ghost.isScared = false;
@@ -109,6 +104,15 @@ const ghostEatPacman = () => {
   ghosts.forEach((ghost) => clearInterval(ghost.timerId));
 };
 
-ghosts.forEach(moveGhost);
+const startGhost = () => {
+  ghosts = [
+    new Ghost('blinky', 348, 250),
+    new Ghost('pinky', 376, 400),
+    new Ghost('inky', 351, 300),
+    new Ghost('clyde', 379, 500),
+  ];
+  displayGhosts();
+  ghosts.forEach(moveGhost);
+};
 
-export { moveGhost, ghosts, displayGhosts, ghostEatPacman };
+export { moveGhost, ghosts, displayGhosts, ghostEatPacman, startGhost };
