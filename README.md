@@ -1,33 +1,32 @@
-# Webpack Frontend Starterkit
+# Pacmania 
 
-[![Dependabot badge](https://flat.badgen.net/dependabot/wbkd/webpack-starter?icon=dependabot)](https://dependabot.com/)
+![img](https://res.cloudinary.com/turbopila/image/upload/v1616281481/ezgif.com-gif-maker_oni0ns.gif)
 
-A lightweight foundation for your next webpack based frontend project.
+The classic Pac-Man.
 
-### Installation
+## Built With
+- Javascript Vanilla
+- Sass
+- HTML
 
-```
-npm install
-```
+## Live Demo
 
-### Start Dev Server
+[Live Demo Link](https://soyrenzo.github.io/PACMANIA/)
 
-```
-npm start
-```
+## What I learned?
 
-### Build Prod Version
+** First Project using Webpack 🤯 , export E6 syntax, and a little of classes , intervals and clear intervals, and reinforce basic Js concepts**
 
-```
-npm run build
-```
+## 🤝 Contributing
 
-### Features:
+Contributions, issues, and feature requests are welcome!
 
-- ES6 Support via [babel](https://babeljs.io/) (v7)
-- JavaScript Linting via [eslint-loader](https://github.com/MoOx/eslint-loader)
-- SASS Support via [sass-loader](https://github.com/jtangelder/sass-loader)
-- Autoprefixing of browserspecific CSS rules via [postcss](https://postcss.org/) and [autoprefixer](https://github.com/postcss/autoprefixer)
-- Style Linting via [stylelint](https://stylelint.io/)
+Feel free to check the [issues page](issues/).
 
-When you run `npm run build` we use the [mini-css-extract-plugin](https://github.com/webpack-contrib/mini-css-extract-plugin) to move the css to a separate file. The css file gets included in the head of the `index.html`.
+## Show your support
+
+Give a ⭐️ if you like this project!
+
+## 📝 License
+
+This project is [MIT](lic.url) licensed.
