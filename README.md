@@ -11,7 +11,7 @@ The classic Pac-Man.
 
 ## Live Demo
 
-[Live Demo Link](https://soyrenzo.github.io/PACMANIA/)
+[Live Demo Link](https://renzo4web.github.io/PACMANIA/)
 
 ## What I learned?
 
